@@ -50,14 +50,7 @@ def bookish_routes(app):
 
         elif request.method == 'GET':
             books = Book.query.all()
-            results = [
-                {
-                    'isbn': book.isbn,
-                    'title': book.title,
-                    'author': book.author,
-                    'copies_total': book.copies_total,
-                    'copies_available': book.copies_available
-                } for book in books]
+            results = [book.serialize() for book in books]
             return {"books": results}
 
     @app.route('/copy', methods=['POST', 'GET'])
@@ -84,11 +77,7 @@ def bookish_routes(app):
 
         elif request.method == 'GET':
             copies = Copy.query.all()
-            results = [
-                {
-                    'id': copy.id,
-                    'isbn': copy.isbn
-                } for copy in copies]
+            results = [copy.serialize() for copy in copies]
             return {"copies": results}
 
     @app.route('/user', methods=['POST', 'GET'])
@@ -117,9 +106,5 @@ def bookish_routes(app):
 
         elif request.method == 'GET':
             users = User.query.all()
-            results = [
-                {
-                    'username': user.username,
-                    'password': user.password
-                } for user in users]
+            results = [user.serialize() for user in users]
             return {"users": results}
