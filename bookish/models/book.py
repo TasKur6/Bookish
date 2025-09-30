@@ -9,18 +9,19 @@ class Book(db.Model):
     isbn = db.Column(db.String, primary_key=True)
     title = db.Column(db.String())
     author = db.Column(db.String())
-    copies_total = db.Column(db.Integer)
-    copies_available = db.Column(db.Integer)
+    copies = db.relationship('Copy', backref='book', lazy='dynamic')
 
-    def __init__(self, isbn, title, author, copies_total):
+    def __init__(self, isbn, title, author):
         self.isbn = isbn
         self.title = title
         self.author = author
-        self.copies_total = copies_total
-        self.copies_available = copies_total
 
     def __repr__(self):
-        return '<isbn {}, title {}, author {}, copies_total {}, copies_available {}>'.format(self.isbn, self.title, self.author, self.copies_total, self.copies_available)
+        return '<isbn {}, title {}, author {}, copies_total {}>'.format(self.isbn, self.title, self.author, self.copies_total)
+
+    @property
+    def copies_available(self):
+        return self.copies.filter_by(username=None).count()
 
     def serialize(self):
         return {
@@ -30,3 +31,7 @@ class Book(db.Model):
             'copies_total': self.copies_total,
             'copies_available': self.copies_available
         }
+
+    @property
+    def copies_total(self):
+        return self.copies.count()
