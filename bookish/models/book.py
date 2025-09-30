@@ -6,7 +6,7 @@ class Book(db.Model):
     __tablename__ = 'Books'
 
     # Here we outline what columns we want in our database
-    isbn = db.Column(db.Integer, primary_key=True)
+    isbn = db.Column(db.String, primary_key=True)
     title = db.Column(db.String())
     author = db.Column(db.String())
     copies_total = db.Column(db.Integer)
@@ -20,7 +20,7 @@ class Book(db.Model):
         self.copies_available = copies_total
 
     def __repr__(self):
-        return '<isbn {}, title {}, author {}, copies {}>'.format(self.isbn, self.title, self.author, self.copies)
+        return '<isbn {}, title {}, author {}, copies_total {}, copies_available {}>'.format(self.isbn, self.title, self.author, self.copies_total, self.copies_available)
 
     def serialize(self):
         return {

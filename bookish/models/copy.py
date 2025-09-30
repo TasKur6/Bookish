@@ -1,5 +1,4 @@
 from bookish.app import db
-from sqlalchemy import ForeignKey
 
 class Copy(db.Model):
     # This sets the name of the table in the database
@@ -7,8 +6,8 @@ class Copy(db.Model):
 
     # Here we outline what columns we want in our database
     id = db.Column(db.Integer, primary_key=True)
-    isbn = db.Column(db.Integer, ForeignKey('Books.isbn'), nullable=False)
-    username = db.Column(db.String(), ForeignKey('Users.username'))
+    isbn = db.Column(db.String, db.ForeignKey('Books.isbn', name='fk_book_isbn'), nullable=False)
+    username = db.Column(db.String(), db.ForeignKey('Users.username', name='fk_copy_username'))
     due_back = db.Column(db.Date())
 
     def __init__(self, isbn):
