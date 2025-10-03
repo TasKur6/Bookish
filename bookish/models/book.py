@@ -2,13 +2,9 @@ from bookish.app import db
 
 
 class Book(db.Model):
-    # This sets the name of the table in the database
     __tablename__ = 'Books'
 
-    # Here we outline what columns we want in our database
-    # ISBN: primary key. Limit length (allow hyphens) to 17 characters.
     isbn = db.Column(db.String(17), primary_key=True)
-    # required fields with reasonable length limits
     title = db.Column(db.String(200), nullable=False)
     author = db.Column(db.String(100), nullable=False)
     copies = db.relationship('Copy', backref='book', lazy='dynamic')
